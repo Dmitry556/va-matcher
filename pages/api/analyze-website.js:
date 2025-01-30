@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   try {
     const openai = new OpenAI({
-      apiKey: process.env.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,
+      apiKey: process.env.OPENAI_API_KEY,
     });
 
     const completion = await openai.chat.completions.create({
