@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   try {
     const anthropic = new Anthropic({
-      apiKey: process.env.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,
+      apiKey: process.env.sk-ANTHROPIC_API_KEY,
     });
 
     const message = await anthropic.messages.create({
