@@ -5,9 +5,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { website } = req.body;
-
   try {
+    const { website } = req.body;
+    console.log('Analyzing website:', website); // Debug log
+
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -21,14 +22,21 @@ export default async function handler(req, res) {
         },
         {
           role: "user",
-          content: `Analyze this website: ${website}`
+          content: `Analyze this website: ${website}. Focus on team size, current operations, and areas that could benefit from VA support.`
         }
-      ]
+      ],
+      temperature: 0.7,
+      max_tokens: 500
     });
 
+    console.log('GPT Response:', completion.choices[0].message); // Debug log
     return res.status(200).json({ analysis: completion.choices[0].message.content });
+
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Failed to analyze website' });
+    console.error('Detailed error:', error); // Debug log
+    return res.status(500).json({ 
+      error: 'Failed to analyze website',
+      details: error.message 
+    });
   }
-}v
+}
